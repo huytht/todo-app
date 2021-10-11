@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+   
 import './App.css';
+import { BrowserRouter, Switch } from 'react-router-dom';
+import { MenuNgang } from './components/MenuNgang';
+import { routes } from './config/routes';
+import { MyRoute } from './components/MyRoute';
+import { ToDoContextProvider } from './context/ToDoContext';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>MY TODO APP</h1>
+      <ToDoContextProvider>
+        <BrowserRouter>
+          {/* <!-- Menu ngang --> */}
+          <MenuNgang />
+          {/* Định tuyến */}
+          <Switch>
+            {routes.map((item, index) => {
+              return (
+                <MyRoute key={index} path={item.path} component={item.component} />
+              )
+            })}
+          </Switch>
+        </BrowserRouter>
+      </ToDoContextProvider>
     </div>
   );
 }

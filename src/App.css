@@ -1,7 +1,15 @@
+.menuItem {
+  margin: 5px;
+  text-decoration: none;
+  color: blue;
+}
+.menuItem:hover {
+  font-weight: bolder;
+  color: red;
+}
 .App {
   text-align: center;
 }
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
