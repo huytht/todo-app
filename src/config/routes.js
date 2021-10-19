@@ -22,7 +22,6 @@ export const routes = [
     {
         path: "/",
         component: About,
-        label: "About"
     },
     {
         path: "*",
