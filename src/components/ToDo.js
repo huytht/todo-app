@@ -1,75 +1,138 @@
-import React, { useContext } from 'react';
-import { ToDoContext } from '../context/ToDoContext';
+import React, { useContext } from "react";
+import { ToDoContext } from "../context/ToDoContext";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Divider,
+  Grid,
+  TextField,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from "@material-ui/core";
+import moment from "moment";
 
-
-// Arrow Function components
 export const ToDoList = () => {
-    const { data, setData, name, setName, deadline, setDeadline } = useContext(ToDoContext);
-    const handleClick = (e) => {
-        e.preventDefault();
-        const newData = data.slice(0); // copy
-        const newItem = {
-            id: data.length + 1,
-            name: name,
-            deadline: deadline,
-            isCompleted: false
-        };
-        for(var i = 0; i < data.length; ++i) {
-            const d1 = Date.parse(data[i].deadline)
-            const d2 = Date.parse(deadline)
-            const d3 = Date.parse(data[data.length - 1].deadline)
-            if (d2 > d3) {
-                setData([...newData, newItem]);
-                break;
-            } else if (d2 < d1) {
-                newData.splice(i, 0, newItem);
-                setData(newData)
-                break;
-            }
-        }
-        setName('');
-        setDeadline('');
+  const { data, setData, newTask, setNewTask } = useContext(ToDoContext);
+  const HandleSubmit = (e) => {
+    e.preventDefault();
+    const newData = data.slice(0);
+    const newItem = {
+      id: data.length + 1,
+      name: newTask.name,
+      deadline: newTask.deadline,
+      isCompleted: false,
+    };
+    for (var i = 0; i < data.length; ++i) {
+      const d1 = new Date(data[i].deadline).getTime()
+      const d2 = new Date(newTask.deadline).getTime()
+      const d3 = new Date(data[data.length - 1].deadline).getTime()
+      
+      if (d2 > d3) {
+        setData([...newData, newItem]);
+        break;
+      } else if (d2 < d1) {
+        newData.splice(i, 0, newItem)
+        setData(newData);
+        break;
+      }
     }
-    return (
-        <div>
-            <h2>TODO LIST</h2>
-             <table style={{border: '1px solid blue', marginLeft: 'auto', marginRight: 'auto'}}>
-                <tbody>
-                    <tr>
-                        <td>Name:</td>
-                        <td>
-                        <input value={name} onChange={(e) => {
-                            setName(e.target.value);
-                        }} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Deadline:</td>
-                        <td>
-                            <input value={deadline} onChange={(e) => {
-                                setDeadline(e.target.value);
-                            }} />
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td colSpan="2">
-                            <button onClick={handleClick}>Thêm</button>
-                        </td>
-                    </tr>
-                </tfoot>
-             </table>
-             <br />
-            {data.map((item) => {
-                //process js
-
-                return (
-                    <div key={item.id}>
-                        {item.name} - {item.deadline} : { item.isCompleted ? 'DONE' : 'INPROGRESS'}
-                    </div>
-                )
-            })}
+  };
+  const handleChange = (event) => {
+    setNewTask({
+      ...newTask,
+      [event.target.name]: event.target.value,
+    });
+  };
+  return (
+    <div>
+        <div className="center">
+            <Card>
+            <CardHeader title="TODO LIST" />
+            <Divider />
+            <CardContent>
+                <Grid container spacing={6}>
+                <Grid item md={12} xs={12}>
+                    <TextField
+                    fullWidth
+                    label="Name"
+                    name="name"
+                    onChange={handleChange}
+                    required
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    value={newTask.name}
+                    variant="outlined"
+                    />
+                </Grid>
+                <Grid item md={12} xs={12}>
+                    <TextField
+                    fullWidth
+                    id="deadline"
+                    name="deadline"
+                    label="Deadline"
+                    type="date"
+                    onChange={handleChange}
+                    value={newTask.deadline}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="outlined"
+                    />
+                </Grid>
+                </Grid>
+            </CardContent>
+            <Divider />
+            <Box
+                sx={{
+                display: "flex",
+                justifyContent: "center",
+                p: 2,
+                }}
+            >
+                <Button
+                onClick={HandleSubmit}
+                fullWidth
+                type="submit"
+                color="primary"
+                variant="contained"
+                >
+                Submit
+                </Button>
+            </Box>
+            </Card>
         </div>
-    )
+        <br />
+        <div className="center">
+            <Card>
+                <Box sx={{ minWidth: 1050 }}>
+                    <Table>
+                        <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Deadline</TableCell>
+                            <TableCell>Status</TableCell>
+                        </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data.map((item) => (
+                                <TableRow>
+                                    <TableCell>{item.name}</TableCell>
+                                    <TableCell>{moment(item.deadline).format("DD-MM-yyyy")}</TableCell>
+                                    <TableCell>{item.isCompleted ? "Done" : "Inprogress"}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </Box>
+            </Card>
+        </div>
+    </div>
+  );
 };

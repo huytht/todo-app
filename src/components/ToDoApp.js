@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ToDoContext } from '../context/ToDoContext';
 import { Timeline, TimelineItem }  from 'vertical-timeline-component-for-react';
-
+import moment from "moment";
 
 export const ToDoApp = () => {
     const { data, setData } = useContext(ToDoContext)
@@ -31,7 +31,7 @@ export const ToDoApp = () => {
                     return (
                         <TimelineItem
                             key={item.id}
-                            dateText={item.deadline}
+                            dateText={moment(item.deadline).format("DD-MM-yyyy")}
                             dateInnerStyle={{ background: '#61b8ff', color: '#000' }}
                             bodyContainerStyle={{
                             background: 'rgba(0,0,0,0.05)',
@@ -44,7 +44,7 @@ export const ToDoApp = () => {
                             style={!item.isCompleted ? { textAlign: 'center', color: "#8B0000" } : { textAlign: 'center', color: "#90EE90" }}
                         >
                             <h3 style={{ color: 'black' }}>{item.name}</h3>
-                            <h4 style={{ color: 'black' }}>{item.deadline}</h4>
+                            <h4 style={{ color: 'black' }}>{moment(item.deadline).format("DD-MM-yyyy")}</h4>
                             <h5 style={{ color: 'black' }}>Status: <b style={item.isCompleted ? {color: "#90EE90"} : {color: "#8B0000"}}>{item.isCompleted ? "Done" : "Inprogress"}</b></h5>
                             {!item.isCompleted ? (
                                 <button onClick={() => handleComplete(idx)} style={{ padding: 9, margin: 3, backgroundColor: '#90EE90', color: 'white', border: 'none' }}>

@@ -1,12 +1,10 @@
 import { createContext, useState } from "react";
 
 export const ToDoContext = createContext({
-    data: [],
+    data: [{}],
     setData: () => { },
-    name: '',
-    setName: () => { },
-    deadline: '',
-    setDeadline: () => { }
+    newTask: {},
+    setNewTask: () => { }
 });
 
 const initData = [
@@ -20,7 +18,7 @@ const initData = [
         "id": 2,
         "name": "LEARN REACT HOOKS",
         "isCompleted": false,
-        "deadline": '2021-10-09'
+        "deadline": '2021-09-10'
     },
     {
         "id": 3,
@@ -30,7 +28,7 @@ const initData = [
     },
     {
         "id": 4,
-        "name": "LEARN FastAPI BASIC",
+        "name": "LEARN FASTAPI BASIC",
         "isCompleted": false,
         "deadline": '2021-10-20'
     },
@@ -44,16 +42,18 @@ const initData = [
 
 export const ToDoContextProvider = ({ children }) => {
     const [myData, setMyData] = useState(initData);
-    const [taskName, setTaskName] = useState('');
-    const [taskDeadline, setTaskDeadline] = useState('');
+    const [task, setTask] = useState({
+        id: 0,
+        name: '',
+        isCompleted: false,
+        deadline: ''
+    })
     return (
         <ToDoContext.Provider value={{
             data: myData,
             setData: setMyData,
-            name: taskName,
-            setName: setTaskName,
-            deadline: taskDeadline,
-            setDeadline: setTaskDeadline
+            newTask: task,
+            setNewTask: setTask
         }}>
             {children}
         </ToDoContext.Provider>
