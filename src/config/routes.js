@@ -18,6 +18,11 @@ export const routes = [
         path: "/about",
         component: About,
         label: "About"
+    },      
+    {
+        path: "/",
+        component: About,
+        label: "About"
     },
     {
         path: "*",
