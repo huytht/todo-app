@@ -42,6 +42,10 @@ export const ToDoList = () => {
         break;
       }
     }
+    setNewTask({
+      name: '',
+      deadline: ''
+    })
   };
   const handleChange = (event) => {
     setNewTask({
