@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { ToDoContext } from '../context/ToDoContext';
 import { Timeline, TimelineItem }  from 'vertical-timeline-component-for-react';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import moment from "moment";
 
 export const ToDoApp = () => {
@@ -8,12 +10,6 @@ export const ToDoApp = () => {
     const handleComplete = (idx) => {
         const newValue = data;
         newValue[idx].isCompleted = true;
-        setData([...newValue]);
-    }
-
-    const handleIncomplete = (idx) => {
-        const newValue = data;
-        newValue[idx].isCompleted = false;
         setData([...newValue]);
     }
 
@@ -41,22 +37,20 @@ export const ToDoApp = () => {
                             boxShadow: '0.5rem 0.5rem 2rem 0 rgba(0, 0, 0, 0.2)',
                             }}
                             
-                            style={!item.isCompleted ? { textAlign: 'center', color: "#8B0000" } : { textAlign: 'center', color: "#90EE90" }}
+                            style={!item.isCompleted ? { textAlign: 'center', color: "rgb(255, 14, 14)" } : { textAlign: 'center', color: "rgb(66, 186, 150)" }}
                         >
                             <h3 style={{ color: 'black' }}>{item.name}</h3>
                             <h4 style={{ color: 'black' }}>{moment(item.deadline).format("DD-MM-yyyy")}</h4>
-                            <h5 style={{ color: 'black' }}>Status: <b style={item.isCompleted ? {color: "#90EE90"} : {color: "#8B0000"}}>{item.isCompleted ? "Done" : "Inprogress"}</b></h5>
+                            <h5 style={{ color: 'black' }}>Status: <b style={item.isCompleted ? {color: 'rgb(66, 186, 150)'} : {color: 'rgb(255, 14, 14)'}}>{item.isCompleted ? "Done" : "Inprogress"}</b></h5>
                             {!item.isCompleted ? (
-                                <button onClick={() => handleComplete(idx)} style={{ padding: 9, margin: 3, backgroundColor: '#90EE90', color: 'white', border: 'none' }}>
-                                    Complete
+                                <button onClick={() => handleComplete(idx)} style={{ border: 'none' }}>
+                                    <CheckCircleOutlineIcon style={{ color: 'rgb(66, 186, 150)' }} />
                                 </button>
-                            ): 
-                                <button onClick={() => handleIncomplete(idx)} style={{ padding: 9, margin: 3, backgroundColor: '#8B0000', color: 'white', border: 'none' }}>
-                                    Incomplete
-                                </button>
+                                )
+                                : ''
                             }
-                            <button onClick={() => handleDelete(idx)} style={{ padding: 9, margin: 3, backgroundColor: 'red', color: 'white', border: 'none' }}>
-                                Remove
+                            <button onClick={() => handleDelete(idx)} style={{ border: 'none' }}>
+                                <DeleteOutlineIcon style={{ color: 'rgb(255, 14, 14)' }} />
                             </button>
                         </TimelineItem>  
                     )
